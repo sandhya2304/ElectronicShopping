@@ -34,6 +34,8 @@ public class Product implements Serializable
     private boolean selected;
     private String photo;
     private int quantity;
+    
+    
     @ManyToOne
     @JoinColumn(name="idCategorie")
     private Categorie categorie;

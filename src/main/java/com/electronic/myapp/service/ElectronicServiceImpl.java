@@ -2,86 +2,117 @@ package com.electronic.myapp.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.electronic.myapp.dao.IElectronicShopDao;
 import com.electronic.myapp.model.Basket;
 import com.electronic.myapp.model.Categorie;
 import com.electronic.myapp.model.Client;
 import com.electronic.myapp.model.Order;
 import com.electronic.myapp.model.Product;
+import com.electronic.myapp.model.Role;
+import com.electronic.myapp.model.User;
 
-public class ElectronicServiceImpl implements IAdminProductService
+
+@Service
+@Transactional
+public class ElectronicServiceImpl implements IAdminCategorieService
 {
 	
+	@Autowired
 	private IElectronicShopDao dao;
+	
 	
 	public void setDao(IElectronicShopDao dao) {
 		this.dao = dao;
 	}
+	
 
 	@Override
 	public List<Categorie> listCategorie() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.listCategorie();
 	}
 
 	@Override
 	public Categorie getCategorie(Long idcat) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getCategorie(idcat);
 	}
 
 	@Override
 	public List<Product> listproduct() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.listproduct();
 	}
 
 	@Override
 	public List<Product> productbyKeyword(String bykey) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.productbyKeyword(bykey);
 	}
 
 	@Override
 	public List<Product> productbyCategorie(Long idcat) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.productbyCategorie(idcat);
 	}
 
 	@Override
 	public List<Product> productSelected() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.productSelected();
 	}
 
 	@Override
 	public Product getProduct(Long idp) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.getProduct(idp);
 	}
 
 	@Override
 	public Order recordOrder(Basket b, Client c) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.recordOrder(b, c);
 	}
 
 	@Override
 	public Long addProduct(Product p, Long idcat) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.addProduct(p, idcat);
 	}
 
 	@Override
 	public void deleteProduct(Long idp) {
-		// TODO Auto-generated method stub
-		
+	   dao.deleteProduct(idp);
 	}
 
 	@Override
 	public void editProduct(Product p) {
-		// TODO Auto-generated method stub
-		
+		dao.editProduct(p);
+	}
+
+
+	@Override
+	public Long addCategorie(Categorie c) {
+		return dao.addCategorie(c);
+	}
+
+
+	@Override
+	public void removeCategorie(Long idcat) {
+		dao.removeCategorie(idcat);
+	}
+
+
+	@Override
+	public void editCategorie(Categorie c) {
+		dao.editCategorie(c);
+	}
+
+
+	@Override
+	public void addUSer(User u) {
+		dao.addUSer(u);
+	}
+
+
+	@Override
+	public void attributeRole(Role r, Long userid) {
+		dao.attributeRole(r, userid);
 	}
 	
 	

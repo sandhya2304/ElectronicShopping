@@ -19,6 +19,7 @@ public class Client implements Serializable
 	private String address;
 	private String email;
 	private String telephone;
+	
 	@OneToMany(mappedBy="client")
 	private Collection<Order> order;
 	

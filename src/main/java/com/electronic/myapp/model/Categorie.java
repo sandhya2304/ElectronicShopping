@@ -22,9 +22,12 @@ public class Categorie
 	@Size(min=3,max=20)
 	private String nameCategory;
 	private String description;
+	
 	@Lob
 	private byte[] photo;
+	
 	private  String namePhoto;
+	
 	@OneToMany(mappedBy="categorie")
 	private Collection<Product> product;
 	

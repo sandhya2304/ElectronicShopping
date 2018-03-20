@@ -36,6 +36,11 @@
 	 <tx:annotation-driven transaction-manager="transactionManager" />
 	 
 	 <context:annotation-config></context:annotation-config>
+	 
+	 <bean id="dao" class="com.electronic.myapp.dao.ElectronicShopDaoImpl"></bean>
 	
+	<bean id="service" class="com.electronic.myapp.service.ElectronicServiceImpl">
+	  <property name="dao" ref="dao" />
+	</bean>
 
 </beans>

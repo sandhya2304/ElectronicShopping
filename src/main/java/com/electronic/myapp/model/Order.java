@@ -20,8 +20,10 @@ public class Order
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long idOrder;
 	private Date dateOrder;
+	
 	@OneToMany(mappedBy="order")
 	private Collection<LineOrder> items;
+	
 	@ManyToOne
 	@JoinColumn(name="idClient")
 	private Client client;

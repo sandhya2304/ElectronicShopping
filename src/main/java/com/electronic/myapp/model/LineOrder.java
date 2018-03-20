@@ -13,11 +13,14 @@ public class LineOrder
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	
 	@ManyToOne
 	@JoinColumn(name="idProduct")
 	private Product product;
+	
 	private int quantity;
 	private double price;
+	
 	@ManyToOne
 	@JoinColumn(name="idOrder")
 	private Order order;

@@ -23,6 +23,7 @@ public class User
 	@Column(name="password")
 	private String password;
 	private boolean actived;
+	
 	@OneToMany
 	@JoinColumn(name="idUser")
 	private Collection<Role> role;

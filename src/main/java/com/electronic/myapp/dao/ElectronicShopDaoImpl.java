@@ -20,44 +20,38 @@ import com.electronic.myapp.model.Role;
 import com.electronic.myapp.model.User;
 
 
-
 @Repository
-public class ElectronicShopImpl implements IElectronicShopDao
+public class ElectronicShopDaoImpl implements IElectronicShopDao
 {
+	
+	
 	@PersistenceContext
 	private EntityManager em;
 	
 	
-
-	@Override
 	public Long addCategorie(Categorie c) {
 		em.persist(c);
 		return c.getIdCategorie();
 	}
 
-	@Override
 	public List<Categorie> listCategorie() {
-		Query req=em.createQuery("select c from Categorie ");
-		return req.getResultList();
+		Query q=em.createQuery("select c from Categorie c");
+		return q.getResultList();
 	}
 
-	@Override
 	public Categorie getCategorie(Long idcat) {
 		return em.find(Categorie.class,idcat);
 	}
 
-	@Override
 	public void removeCategorie(Long idcat) {
 		Categorie c=em.find(Categorie.class,idcat);
-		em.remove(c);
+		em.remove(idcat);
 	}
 
-	@Override
 	public void editCategorie(Categorie c) {
 		em.merge(c);
 	}
 
-	@Override
 	public Long addProduct(Product p, Long idcat) {
 		Categorie c=getCategorie(idcat);
 		p.setCategorie(c);
@@ -65,76 +59,63 @@ public class ElectronicShopImpl implements IElectronicShopDao
 		return p.getIdProduct();
 	}
 
-	@Override
 	public List<Product> listproduct() {
-		Query req=em.createQuery("select p from Product p");
-		return req.getResultList();
+		Query q=em.createQuery("select p from Product p");
+		return q.getResultList();
 	}
 
-	@Override
 	public List<Product> productbyKeyword(String bykey) {
-		Query req=em.createQuery("select p from Product p where p.designation :x or p.description :x");
-		req.setParameter("x","%"+bykey+"%");
-		return req.getResultList();
+		Query q=em.createQuery("select p from Product where p.designation like:x or p.description like:x");
+		q.setParameter("x","%"+bykey+"%");
+		return q.getResultList();
 	}
 
-	@Override
 	public List<Product> productbyCategorie(Long idcat) {
-		Query req=em.createQuery("select p from Product p where p.categorie.idCategorie =:x");
-		req.setParameter("x",idcat);
-		return req.getResultList();
+		Query q=em.createQuery("select p from Product where p.categorie.idCategorie=:x");
+		q.setParameter("x",idcat);
+		return q.getResultList();
 	}
 
-	@Override
 	public List<Product> productSelected() {
-		Query req=em.createQuery("select p from Product p where p.selected =true");
-		return req.getResultList();
+		Query q=em.createQuery("select p from Product where p.selected=true");
+		return q.getResultList();
 	}
 
-	@Override
 	public Product getProduct(Long idp) {
 		return em.find(Product.class,idp);
-		 
 	}
 
-	@Override
 	public void deleteProduct(Long idp) {
-		Product p=em.find(Product.class,idp);
-		em.remove(p);
+		Product p=getProduct(idp);
+		em.remove(p);	
 	}
 
-	@Override
 	public void editProduct(Product p) {
-		em.merge(p);
+	    em.merge(p);
 	}
 
-	@Override
 	public void addUSer(User u) {
-	  em.merge(u);
-		
+		em.persist(u);
 	}
 
-	@Override
 	public void attributeRole(Role r, Long userid) {
-		User user=em.find(User.class,userid);
-		user.getRole().add(r);
-		
+		User u=em.find(User.class,userid);
+		u.getRole().add(r);
+		em.persist(r);
 	}
 
-	@Override
 	public Order recordOrder(Basket b, Client c) {
-		em.persist(c);  //first add client
-		Order order=new Order();   //then create order object
-		order.setDateOrder(new Date());  //second set date of order
-		order.setItems(b.getItems());   //getitems from basket or cart 
-		for(LineOrder lo:b.getItems())   //create a orderline depends how many order you made 
+		em.persist(c);    //first add client
+		Order o=new Order();  //then create order object
+		o.setDateOrder(new Date());  //second set date of order
+		o.setItems(b.getItems());   //getitems from basket or cart 
+		for(LineOrder lo:b.getItems())    //create a orderline depends how many order you made 
 		{
-			em.persist(lo);             //then add orderline
+			em.persist(lo);     //then add orderline
 		}
-		return order;
+		em.persist(o);
+		return o;
 	}
-	
-	
 	
 
 }
